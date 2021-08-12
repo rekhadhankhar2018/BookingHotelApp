@@ -1,0 +1,121 @@
+﻿@model IEnumerable<BookingHotelApp.Models.Guests> 
+
+@{
+    ViewData["Title"] = "Home page";
+
+}
+
+@*Desgin for textboxes*@
+
+<form method="post">
+    <div class="container">
+        <h1><center>HotelBooking </center></h1>
+        <hr>
+        <br />
+
+        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#myModal">Check Room Availability</button>
+        <br />
+        <label for="lastname"><b>Lastname</b></label>
+
+        <input type="text" placeholder="Enter your Lastname" name="lastname" id="lastname" required class="form-control" width="40">
+        <br />
+
+        <label for="start_date"><b>ToDate</b></label>
+        <input type="date" placeholder="Enter Date" name="start_date" id="start_date" required class="form-control">
+        <br />
+        <label for="date"><b>Room</b></label>
+        <select name="listbox" id="listbox" class="form-control">
+            @*@foreach (var item in Model)
+        {
+
+            <option value="@item.RoomNo">
+                @item.RoomNo
+            </option>
+
+        }*@
+            <option value="101"> 101  </option>
+            <option value="102"> 102  </option>
+            <option value="201"> 201  </option>
+            <option value="203"> 203  </option>
+        </select>
+        <br />
+        <center><button type="button" class="btn btn-primary" id="btnsub" onclick="check()">Submit</button> </center>
+    </div>
+</form>
+
+
+@*@for Modal Popup*@
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h1 class="modal-title" style="color:darkblue">Room Availability</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                @foreach (var record in Model)
+                {
+                    if (record.LastName != null && record.LastName != "")
+                    {
+                        <h3 style="color:red">
+                            <label><s> @record.RoomNo Room not available</s> </label>
+                        </h3>
+                        <br />
+                    }
+                    else
+                    {
+                        <h3>
+                            <label>@record.RoomNo Room is available now</label>
+                        </h3>
+                        <br />
+
+                    }
+
+
+                }
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@*//Code Section here*@
+
+@* End here*@
+<script>
+
+    function check()
+        {
+
+        var Guests = {
+            "LastName": $('#lastname').val(),
+            "RoomNo": 101,
+                "BookDate": $('#start_date').val()
+            }
+
+        $.ajax({
+            url: '@Url.Action("AddtoListData")',
+            data: JSON.stringify(Guests),
+            type: 'POST',            
+            contentType: 'application/json',
+            success: function (data) {
+               // location.reload();
+                $('#message').html("json data was sent to controller");
+            }
+        });
+        }
+
+
+
+</script>
+
