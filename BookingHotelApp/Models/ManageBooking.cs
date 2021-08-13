@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookingHotelApp.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace BookingHotelApp.Models
             //{
 
             //};
-            HotelGuests = GetGuests();
+          //  HotelGuests = GetGuests();
         }
         public bool IsRoomAvailable(int Room, DateTime date)
         {
@@ -29,6 +30,11 @@ namespace BookingHotelApp.Models
         {
            
             Guests g = new Guests() { RoomNo = room, LastName = guest, BookDate = date };
+            if(HotelData.guestsList ==null)
+            {
+                HotelData.guestsList = new List<Guests>();
+            }
+            HotelData.guestsList.Add(g);
             mGuestList.Add(g);
             return mGuestList;
         }

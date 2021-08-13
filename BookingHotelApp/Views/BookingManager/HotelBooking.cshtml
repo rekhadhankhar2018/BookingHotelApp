@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BookingHotelApp.Models.Guests> 
 
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Hotel Booking System";
 
 }
 
@@ -12,8 +12,21 @@
         <h1><center>HotelBooking </center></h1>
         <hr>
         <br />
+        <<button type="button" onclick="checkmessage()">Check</button>
+        <br />
+        <label for="checkdate"><b>Date</b></label>
+        <input type="date" placeholder="Enter Date" name="checkdate" id="checkdate" required class="form-control" width="50">
+        @*<a href="#" onclick="editDocument();" data-id="{{ entity.id }}" role="button" data-toggle="modal" class="open-editBox"><button type="button" class="btn blue">Check Room Availability</button></a>*@
+        @*<button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#myModal">Check Room Availability</button>*@
 
-        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#myModal">Check Room Availability</button>
+        <br />
+        <button type="button" class="btn btn-success float-right" onclick="findroom()">Check Room Availability</button>
+        <br />
+        <br /> <br />
+        <hr style="height:auto" />
+
+        <br />
+        <br />
         <br />
         <label for="lastname"><b>Lastname</b></label>
 
@@ -26,13 +39,13 @@
         <label for="date"><b>Room</b></label>
         <select name="listbox" id="listbox" class="form-control">
             @*@foreach (var item in Model)
-        {
+            {
 
-            <option value="@item.RoomNo">
-                @item.RoomNo
-            </option>
+                <option value="@item.RoomNo">
+                    @item.RoomNo
+                </option>
 
-        }*@
+            }*@
             <option value="101"> 101  </option>
             <option value="102"> 102  </option>
             <option value="201"> 201  </option>
@@ -59,26 +72,8 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                @foreach (var record in Model)
-                {
-                    if (record.LastName != null && record.LastName != "")
-                    {
-                        <h3 style="color:red">
-                            <label><s> @record.RoomNo Room not available</s> </label>
-                        </h3>
-                        <br />
-                    }
-                    else
-                    {
-                        <h3>
-                            <label>@record.RoomNo Room is available now</label>
-                        </h3>
-                        <br />
-
-                    }
-
-
-                }
+               
+             <ul style="color:green" id="roomlist"> </ul>  
             </div>
 
             <!-- Modal footer -->
@@ -92,30 +87,104 @@
 @*//Code Section here*@
 
 @* End here*@
+
+
 <script>
 
-    function check()
-        {
+    function check() {
 
         var Guests = {
             "LastName": $('#lastname').val(),
-            "RoomNo": 101,
-                "BookDate": $('#start_date').val()
-            }
+            "RoomNo": $('#listbox option:selected').val(),
+            "BookDate": $('#start_date').val()
+        }
 
         $.ajax({
             url: '@Url.Action("AddtoListData")',
             data: JSON.stringify(Guests),
-            type: 'POST',            
+            type: 'POST',
             contentType: 'application/json',
-            success: function (data) {
-               // location.reload();
-                $('#message').html("json data was sent to controller");
+            success: function (response) {
+                var val = response.result;
+                if (val == true) {
+                    console.log(response.result);
+                    alert('Room added');
+
+                }
+                else {
+                    console.log(response.result);
+                    alert('Room is not avilabale');
+                    location.reload();
+
+                }
+
+            }
+            ,
+            error: function (response) {
+                var val = response.result;
+                if (val == false) {
+                    console.log(response.result);
+                    alert('Room is not avilabale');
+                }
+
             }
         });
-        }
+
+
+    }
+
+    function findroom() {
+
+        var _selectdate = $('#checkdate').val();              
+            $.ajax({
+            url: '@Url.Action("GetRooms")',
+            data: { selectdate: _selectdate },
+            type: 'POST',            
+            dataType: "json",
+            success: function (response) {
+                var val = response.result;
+                var roomlist=response.rooms
+                if (val == true) {
+                    console.log(response);
+                    $("#roomlist").empty();
+                    $.each(response.rooms, function (index, value) {
+                       // console.log(index + ": " + value);
+                        $('.modal-body ul').append('<b><li>' + value + '<b></li>');
+                    });
+
+                  
+                    showModal();
+                }
+                else {
+                    console.log(response.result);
+                    alert('Room is not avilabale');
+                    location.reload();
+
+                }
+
+            }
+            ,
+            error: function (response) {
+                var val = response.result;
+                if (val == false) {
+                    console.log(response.result);
+                    alert('Room is not avilabale');
+                }
+
+            }
+        });
+
+
+     }
+
+    function showModal() {
+        $('#myModal').modal('show');
+    }
 
 
 
+    function checkmessage() {
+        Swal.fire('Any fool can use a computer')
+    }
 </script>
 

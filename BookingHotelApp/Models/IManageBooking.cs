@@ -7,6 +7,6 @@ namespace BookingHotelApp.Models
     {
         List<Guests> AddBooking(string guest, int room, DateTime date);
         bool IsRoomAvailable(int Room, DateTime date);
-        List<Guests> GetGuests();
+        //List<Guests> GetGuests();
     }
 }
