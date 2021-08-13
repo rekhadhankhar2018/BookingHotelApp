@@ -12,8 +12,6 @@
         <h1><center>HotelBooking </center></h1>
         <hr>
         <br />
-        <<button type="button" onclick="checkmessage()">Check</button>
-        <br />
         <label for="checkdate"><b>Date</b></label>
         <input type="date" placeholder="Enter Date" name="checkdate" id="checkdate" required class="form-control" width="50">
         @*<a href="#" onclick="editDocument();" data-id="{{ entity.id }}" role="button" data-toggle="modal" class="open-editBox"><button type="button" class="btn blue">Check Room Availability</button></a>*@
@@ -107,14 +105,22 @@
             success: function (response) {
                 var val = response.result;
                 if (val == true) {
-                    console.log(response.result);
-                    alert('Room added');
+                 /*   console.log(response.result);*/
+                    Swal.fire(
+                        'Congratulations!',
+                        ' Your room is reserved',
+                        'success'
+                    );
 
                 }
                 else {
-                    console.log(response.result);
-                    alert('Room is not avilabale');
-                    location.reload();
+                    /*console.log(response.result); */                   
+                    Swal.fire(
+                        'Sorry!',
+                        'Room is not avilabale',
+                        'success'
+                    );
+
 
                 }
 
@@ -123,8 +129,12 @@
             error: function (response) {
                 var val = response.result;
                 if (val == false) {
-                    console.log(response.result);
-                    alert('Room is not avilabale');
+                    /*console.log(response.result); */
+                    Swal.fire(
+                        'Sorry!',
+                        'Room is not avilabale',
+                        'success'
+                    );
                 }
 
             }
@@ -156,9 +166,12 @@
                     showModal();
                 }
                 else {
-                    console.log(response.result);
-                    alert('Room is not avilabale');
-                    location.reload();
+                    /*console.log(response.result); */
+                    //Swal.fire(
+                    //    'Sorry!',
+                    //    'Room is not avilabale',
+                    //    'success'
+                    //);
 
                 }
 
@@ -167,8 +180,12 @@
             error: function (response) {
                 var val = response.result;
                 if (val == false) {
-                    console.log(response.result);
-                    alert('Room is not avilabale');
+                    /*console.log(response.result); */
+                    Swal.fire(
+                        'Sorry!',
+                        'Room is not avilabale',
+                        'success'
+                    );
                 }
 
             }
@@ -183,8 +200,6 @@
 
 
 
-    function checkmessage() {
-        Swal.fire('Any fool can use a computer')
-    }
+ 
 </script>
 
