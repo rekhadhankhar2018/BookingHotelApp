@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BookingHotelApp.Models.Guests> 
+﻿@model IEnumerable<BookingHotelApp.Models.Guests>
 
 @{
     ViewData["Title"] = "Hotel Booking System";
@@ -39,13 +39,13 @@
         <label for="date"><b>Room</b></label>
         <select name="listbox" id="listbox" class="form-control">
             @*@foreach (var item in Model)
-            {
+                {
 
-                <option value="@item.RoomNo">
-                    @item.RoomNo
-                </option>
+                    <option value="@item.RoomNo">
+                        @item.RoomNo
+                    </option>
 
-            }*@
+                }*@
             <option value="101"> 101  </option>
             <option value="102"> 102  </option>
             <option value="201"> 201  </option>
@@ -72,8 +72,8 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-               
-             <ul style="color:green" id="roomlist"> </ul>  
+
+                <ul style="color:green" id="roomlist"> </ul>
             </div>
 
             <!-- Modal footer -->
@@ -135,11 +135,11 @@
 
     function findroom() {
 
-        var _selectdate = $('#checkdate').val();              
+        var _selectdate = $('#checkdate').val();
             $.ajax({
             url: '@Url.Action("GetRooms")',
             data: { selectdate: _selectdate },
-            type: 'POST',            
+            type: 'POST',
             dataType: "json",
             success: function (response) {
                 var val = response.result;
@@ -152,7 +152,7 @@
                         $('.modal-body ul').append('<b><li>' + value + '<b></li>');
                     });
 
-                  
+
                     showModal();
                 }
                 else {
