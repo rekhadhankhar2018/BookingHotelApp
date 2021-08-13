@@ -11,6 +11,9 @@
     <div class="container">
         <h1><center>HotelBooking </center></h1>
         <hr>
+        <br />
+        <<button type="button" onclick="checkmessage()">Check</button>
+        <br />
         <label for="checkdate"><b>Date</b></label>
         <input type="date" placeholder="Enter Date" name="checkdate" id="checkdate" required class="form-control" width="50">
         @*<a href="#" onclick="editDocument();" data-id="{{ entity.id }}" role="button" data-toggle="modal" class="open-editBox"><button type="button" class="btn blue">Check Room Availability</button></a>*@
@@ -105,21 +108,14 @@
                 var val = response.result;
                 if (val == true) {
                     console.log(response.result);
-                    Swal.fire(
-                        'Congratulations!',
-                        ' Your room is reserved',
-                        'success'
-                    );
+                    alert('Room added');
 
                 }
                 else {
-                   
-                    Swal.fire(
-                        'Sorry!',
-                        'Room is not avilabale',
-                        'success'
-                    );
-                   
+                    console.log(response.result);
+                    alert('Room is not avilabale');
+                    location.reload();
+
                 }
 
             }
@@ -161,11 +157,8 @@
                 }
                 else {
                     console.log(response.result);
-                    Swal.fire(
-                        'Sorry!',
-                        'Room is not avilabale',
-                        'success'
-                    );
+                    alert('Room is not avilabale');
+                    location.reload();
 
                 }
 
@@ -190,6 +183,8 @@
 
 
 
-
+    function checkmessage() {
+        Swal.fire('Any fool can use a computer')
+    }
 </script>
 
